@@ -10,7 +10,7 @@ Cell::Cell(int left, int top, int right, int bottom)
 }
 void Cell::Draw(CDC& dc)
 {
-	CBrush cellBackgroundColor(RGB(128, 128, 128));
+	CBrush cellBackgroundColor(RGB(128, 255, 128));
 	dc.SelectObject(cellBackgroundColor);
 	dc.Rectangle(mLeft, mTop, mRight, mBottom);
 
@@ -32,10 +32,12 @@ void Cell::RemoveCard()
 
 bool Cell::CanRemoveCard()
 {
-	return true;
+	return mCards.size()>0;
+	//will return True if bigger than 0, else false
 }
 bool Cell::CanAcceptCard(int index)
 {
+	//rules are different for all three child classes so it will need to be overwritted.
 	return true;
 }
 
@@ -46,4 +48,28 @@ bool Cell::IsClicked(int x, int y)
 void Cell::SetSelected(bool selected)
 {
 	mSelected = selected;
+}
+
+StartCell::EndCell(double left, double top, double right, double bottom)
+	: Cell(left, top, right, bottom)
+{
+
+}
+
+FreeCell::EndCell(double left, double top, double right, double bottom)
+	: Cell(left, top, right, bottom)
+{
+
+}
+
+
+EndCell::EndCell(double left, double top, double right, double bottom)
+	: Cell(left, top, right, bottom)
+{
+
+}
+
+//overides the CanRemoveCard for EndCell child class
+bool EndCell::CanRemoveCard() {
+	return false;
 }

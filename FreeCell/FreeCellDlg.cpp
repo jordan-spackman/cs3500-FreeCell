@@ -152,6 +152,8 @@ void CFreeCellDlg::OnPaint()
 	else
 	{
 		CPaintDC dc(this); // device context for painting
+		CRect rect;
+		GetClientRect(&rect);
 		/*
 		int left = 2;
 		int top = 2;
@@ -161,9 +163,9 @@ void CFreeCellDlg::OnPaint()
 			left += 20;
 		}
 		*/
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 16; i++)
 		{
-			mCells[i]->Draw(dc);
+			mCells[i]->Draw(dc, rect.Width(), rect.Height(), mCardImages);
 		}
 		CDialogEx::OnPaint();
 	}
