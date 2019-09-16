@@ -8,7 +8,7 @@ Cell::Cell(int left, int top, int right, int bottom)
 	mRight = right;
 	mBottom = bottom;
 }
-void Cell::Draw(CDC& dc)
+void Cell::Draw(CDC& dc, int width, int height, CImage images[])
 {
 	CBrush cellBackgroundColor(RGB(128, 255, 128));
 	dc.SelectObject(cellBackgroundColor);
@@ -17,6 +17,7 @@ void Cell::Draw(CDC& dc)
 	if (mCards.size() > 0)
 	{
 		DrawCard(dc, mLeft+2, mTop+2, mCards[mCards.size()-1]);
+
 	}
 }
 
@@ -45,25 +46,32 @@ bool Cell::IsClicked(int x, int y)
 {
 	return (x >= mLeft && x <= mRight && y >= mTop && y <= mBottom);
 }
+
 void Cell::SetSelected(bool selected)
 {
 	mSelected = selected;
 }
 
-StartCell::EndCell(double left, double top, double right, double bottom)
+StartCell::StartCell(int left, int top, int right, int bottom, int cardHeight)
 	: Cell(left, top, right, bottom)
 {
 
 }
 
-FreeCell::EndCell(double left, double top, double right, double bottom)
+void StartCell::Draw(CDC& dc, int width, int height, CImage images[])
+{
+}
+
+
+
+FreeCell::FreeCell(int left, int top, int right, int bottom)
 	: Cell(left, top, right, bottom)
 {
 
 }
 
 
-EndCell::EndCell(double left, double top, double right, double bottom)
+EndCell::EndCell(int left, int top, int right, int bottom)
 	: Cell(left, top, right, bottom)
 {
 
@@ -73,3 +81,5 @@ EndCell::EndCell(double left, double top, double right, double bottom)
 bool EndCell::CanRemoveCard() {
 	return false;
 }
+
+

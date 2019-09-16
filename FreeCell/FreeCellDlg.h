@@ -25,6 +25,7 @@ public:
 // Implementation
 protected:
 	Cell* mCells[16];
+	CImage mCardImages[52];
 
 	HICON m_hIcon;
 

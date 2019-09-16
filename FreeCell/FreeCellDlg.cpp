@@ -163,7 +163,7 @@ void CFreeCellDlg::OnPaint()
 			left += 20;
 		}
 		*/
-		for (int i = 0; i < 16; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			mCells[i]->Draw(dc, rect.Width(), rect.Height(), mCardImages);
 		}
