@@ -102,11 +102,45 @@ BOOL CFreeCellDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 	InitializeCards();
+	
 	mCells[0] = new Cell(10, 10, 100, 100);
 	mCells[1] = new Cell(110, 10, 200, 100);
+	mCells[2] = new Cell(210, 10, 300, 100);
+	mCells[3] = new Cell(310, 10, 400, 100);
+
+	mCells[4] = new Cell(610, 10, 700, 100);
+	mCells[5] = new Cell(710, 10, 800, 100);
+	mCells[6] = new Cell(810, 10, 900, 100);
+	mCells[7] = new Cell(910, 10, 1000, 100);
+
+	mCells[8] = new Cell(10, 150, 100, 240);
+	mCells[9] = new Cell(110, 150, 200, 240);
+	mCells[10] = new Cell(210, 150, 300, 240);
+	mCells[11] = new Cell(310, 150, 400, 240);
+
+	mCells[12] = new Cell(610, 150, 700, 240);
+	mCells[13] = new Cell(710, 150, 800, 240);
+	mCells[14] = new Cell(810, 150, 900, 240);
+	mCells[15] = new Cell(910, 150, 1000, 240);
+	//Cell(int left, int top, int right, int bottom);
 
 	mCells[0]->AddCard(17);
 	mCells[1]->AddCard(12);
+	mCells[2]->AddCard(13);
+	mCells[3]->AddCard(16);
+	mCells[4]->AddCard(18);
+	mCells[5]->AddCard(19);
+	mCells[6]->AddCard(20);
+	mCells[7]->AddCard(21);
+	mCells[8]->AddCard(22);
+	mCells[9]->AddCard(23);
+	mCells[10]->AddCard(24);
+	mCells[11]->AddCard(25);
+	mCells[12]->AddCard(26);
+	mCells[13]->AddCard(27);
+	mCells[14]->AddCard(28);
+	mCells[15]->AddCard(29);
+	
 
 
 
@@ -163,7 +197,7 @@ void CFreeCellDlg::OnPaint()
 			left += 20;
 		}
 		*/
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 16; i++)
 		{
 			mCells[i]->Draw(dc, rect.Width(), rect.Height(), mCardImages);
 		}

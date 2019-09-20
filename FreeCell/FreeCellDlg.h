@@ -4,6 +4,7 @@
 
 #pragma once
 #include "cell.h"
+#include "WindowsCards.h"
 
 
 // CFreeCellDlg dialog
