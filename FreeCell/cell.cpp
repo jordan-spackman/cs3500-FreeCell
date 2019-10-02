@@ -58,6 +58,7 @@ StartCell::StartCell(int left, int top, int right, int bottom, int cardHeight)
 
 void StartCell::Draw(CDC& dc, int width, int height, CImage images[])
 {
+
 }
 
 
