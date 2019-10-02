@@ -102,32 +102,45 @@ BOOL CFreeCellDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 	InitializeCards();
-	
+
+	/*mCells[0] = new Cell(10, 10, 100, 100);
+	mCells[1] = new Cell(110, 10, 200, 100);
+	mCells[2] = new Cell(210, 10, 300, 100);
+	mCells[3] = new Cell(310, 10, 400, 100);
+
+	mCells[4] = new Cell(610, 10, 700, 100);
+	mCells[5] = new Cell(710, 10, 800, 100);
+	mCells[6] = new Cell(810, 10, 900, 100);
+	mCells[7] = new Cell(910, 10, 1000, 100);
+
+	mCells[8] = new Cell(10, 150, 100, 240);
+	mCells[9] = new Cell(110, 150, 200, 240);
+	mCells[10] = new Cell(210, 150, 300, 240);
+	mCells[11] = new Cell(310, 150, 400, 240);
+
+	mCells[12] = new Cell(610, 150, 700, 240);
+	mCells[13] = new Cell(710, 150, 800, 240);
+	mCells[14] = new Cell(810, 150, 900, 240);
+	mCells[15] = new Cell(910, 150, 1000, 240);*/
+
+	//End cell cards
 	int left = 10, top = 10, right = 100, bottom = 100;
-
+	int whichCell = 8;
 	for (int i = 0; i <= 15; i++) {
-		/*mCells[i] = new Cell(left, top, right, bottom);
+		mCells[whichCell] = new EndCell(left, top, right, bottom);
 		left += 80;
-		right += 80;*/
-
-		if (i < 7) {
-			mCells[i] = new Cell(left, top, right, bottom);
-			left += 100;
-			right += 100;
-		}
-		if (1 == 8) {
-			top = 150;
-			right = 100;
-			bottom = 240;
-			mCells[i] = new Cell(left, top, right, bottom);
-		}
-
-		if (i < 8) {
-			mCells[i] = new Cell(left, top, right, bottom);
-			left += 100;
-			right += 100;
-		}
-
+		right += 80;
+		whichCell += 1;
+	}
+	
+	//Start Cell cards
+	int left = 10, top = 10, right = 100, bottom = 100;
+	int whichCell = 8;
+	for (int i = 0; i <= 15; i++) {
+		mCells[whichCell] = new StartCell(left, top, right, bottom);
+		left += 80;
+		right += 80;
+		whichCell += 1;
 	}
 
 	/*mCells[0] = new Cell(10, 10, 100, 100);
