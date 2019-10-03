@@ -103,25 +103,6 @@ BOOL CFreeCellDlg::OnInitDialog()
 	// TODO: Add extra initialization here
 	InitializeCards();
 
-	/*mCells[0] = new Cell(10, 10, 100, 100);
-	mCells[1] = new Cell(110, 10, 200, 100);
-	mCells[2] = new Cell(210, 10, 300, 100);
-	mCells[3] = new Cell(310, 10, 400, 100);
-
-	mCells[4] = new Cell(610, 10, 700, 100);
-	mCells[5] = new Cell(710, 10, 800, 100);
-	mCells[6] = new Cell(810, 10, 900, 100);
-	mCells[7] = new Cell(910, 10, 1000, 100);
-
-	mCells[8] = new Cell(10, 150, 100, 240);
-	mCells[9] = new Cell(110, 150, 200, 240);
-	mCells[10] = new Cell(210, 150, 300, 240);
-	mCells[11] = new Cell(310, 150, 400, 240);
-
-	mCells[12] = new Cell(610, 150, 700, 240);
-	mCells[13] = new Cell(710, 150, 800, 240);
-	mCells[14] = new Cell(810, 150, 900, 240);
-	mCells[15] = new Cell(910, 150, 1000, 240);*/
 
 	//Free Cells
 	//0-3
@@ -133,6 +114,7 @@ BOOL CFreeCellDlg::OnInitDialog()
 		rightFree += 100;
 		cellIndexFree += 1;
 	}
+
 	//End Cells
 	//4-7
 	int leftEnd = 610, topEnd = 10, rightEnd = 700, bottomEnd = 100;
@@ -146,7 +128,7 @@ BOOL CFreeCellDlg::OnInitDialog()
 
 	//Start Cells
 	//8-16
-	int leftStart = 80, topStart = 170, rightStart = 170, bottomStart = 260;
+	int leftStart = 80, topStart = 170, rightStart = 170, bottomStart = 460;
 	int cellIndexStart = 8;
 	int cardHeight = 80;
 	for (int i = 0; i <= 15; i++) {
@@ -158,7 +140,7 @@ BOOL CFreeCellDlg::OnInitDialog()
 
 	
 	mCells[0]->AddCard(17);
-	mCellS[2]->AddCard(12);
+	mCells[2]->AddCard(12);
 	/*
 	mCells[1]->AddCard(12);
 	mCells[2]->AddCard(13);
