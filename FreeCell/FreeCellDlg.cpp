@@ -146,17 +146,20 @@ BOOL CFreeCellDlg::OnInitDialog()
 
 	//Start Cells
 	//8-16
-	int leftStart = 10, topStart = 150, rightStart = 100, bottomStart = 240;
+	int leftStart = 80, topStart = 170, rightStart = 170, bottomStart = 260;
 	int cellIndexStart = 8;
-	for (int i = 0; i <= 16; i++) {
-		mCells[cellIndexStart] = new StartCell(leftStart, topStart, rightStart, bottomStart);
+	int cardHeight = 80;
+	for (int i = 0; i <= 15; i++) {
+		mCells[cellIndexStart] = new StartCell(leftStart, topStart, rightStart, bottomStart, cardHeight);
 		leftStart += 100;
 		rightStart += 100;
 		cellIndexStart += 1;
 	}
 
-	/*
+	
 	mCells[0]->AddCard(17);
+	mCellS[2]->AddCard(12);
+	/*
 	mCells[1]->AddCard(12);
 	mCells[2]->AddCard(13);
 	mCells[3]->AddCard(16);

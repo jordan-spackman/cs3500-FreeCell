@@ -16,11 +16,13 @@ public:
 	bool IsClicked(int x, int y); //convert to World Coordinates
 	void SetSelected(bool selected);
 
-	//getTopCard will need to be added. 
+	int mLeft, mTop, mRight, mBottom;
+
+	std::vector<int> mCards;
+
+	//getTopCard will need to be added.
 
 private:
-	std::vector<int> mCards;
-	int mLeft, mTop, mRight, mBottom;
 	bool mSelected;
 };
 
@@ -28,7 +30,7 @@ class StartCell : public Cell {
 public:
 	StartCell(int left, int top, int right, int bottom, int cardHeight);
 	//overide draw so that it stacks
-	virtual void Draw(CDC& dc, int width, int height, CImage images[]);
+	virtual void Draw(CDC& dc);
 private:
 	int mCardHeight;
 };

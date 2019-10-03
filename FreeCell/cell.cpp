@@ -16,7 +16,9 @@ void Cell::Draw(CDC& dc, int width, int height, CImage images[])
 
 	if (mCards.size() > 0)
 	{
-		DrawCard(dc, mLeft+2, mTop+2, mCards[mCards.size()-1]);
+		for (int i = 0; i < mCards.size(); i++) {
+			DrawCard(dc, mLeft + 2, mTop + 2, mCards[i], mSelected);
+		}
 	}
 }
 
@@ -56,9 +58,16 @@ StartCell::StartCell(int left, int top, int right, int bottom, int cardHeight)
 
 }
 
-void StartCell::Draw(CDC& dc, int width, int height, CImage images[])
+void StartCell::Draw(CDC& dc)
 {
+	CBrush cellBackgroundColor(RGB(128, 128, 128));
+	dc.SelectObject(cellBackgroundColor);
+	dc.Rectangle(mLeft, mTop, mRight, mBottom);
 
+	if (mCards.size() > 0)
+	{
+		DrawCard(dc, mLeft + 2, mTop + 2, mCards[mCards.size() - 1]);
+	}
 }
 
 
