@@ -21,13 +21,14 @@ public:
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
+	void shuffle();
 
 
 // Implementation
 protected:
-	Cell* mCells[16];
-	CImage mCardImages[52];
 
+	int mSelected = -1; // No cells clicked yet
+	
 	HICON m_hIcon;
 
 	// Generated message map functions
@@ -36,4 +37,8 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+
+public:
+	Cell* mCells[16]; //why I have 16 pointers to Cells.
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 };

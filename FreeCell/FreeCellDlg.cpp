@@ -2,12 +2,14 @@
 // FreeCellDlg.cpp : implementation file
 //
 
+#include <iostream>
 #include "pch.h"
 #include "framework.h"
 #include "FreeCell.h"
 #include "FreeCellDlg.h"
 #include "afxdialogex.h"
 #include "WindowsCards.h"
+#include <stdlib.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -132,32 +134,43 @@ BOOL CFreeCellDlg::OnInitDialog()
 	int cellIndexStart = 8;
 	int cardHeight = 80;
 	for (int i = 0; i <= 15; i++) {
-		mCells[cellIndexStart] = new StartCell(leftStart, topStart, rightStart, bottomStart, cardHeight);
+		mCells[cellIndexStart] = new StartCell(leftStart, topStart, rightStart, bottomStart);
 		leftStart += 100;
 		rightStart += 100;
 		cellIndexStart += 1;
 	}
 
+
+	//Shuffle and Draw cards.
 	
-	mCells[0]->AddCard(17);
-	mCells[2]->AddCard(12);
-	/*
-	mCells[1]->AddCard(12);
-	mCells[2]->AddCard(13);
-	mCells[3]->AddCard(16);
-	mCells[4]->AddCard(18);
-	mCells[5]->AddCard(19);
-	mCells[6]->AddCard(20);
-	mCells[7]->AddCard(21);
-	mCells[8]->AddCard(22);
-	mCells[9]->AddCard(23);
-	mCells[10]->AddCard(24);
-	mCells[11]->AddCard(25);
-	mCells[12]->AddCard(26);
-	mCells[13]->AddCard(27);
-	mCells[14]->AddCard(28);
-	mCells[15]->AddCard(29);
-	*/
+	int randomDeck[52];
+	for (int i = 0; i < 52; i++) {
+		randomDeck[i] = i;
+	}
+
+	for (int i = 0; i < 52; i++) {
+		int j = rand() % 52;
+
+		int temp = randomDeck[i];
+		randomDeck[i] = randomDeck[j];
+		randomDeck[j] = temp;
+	}
+
+	int c = -1;
+	for (int i = 8; i < 16; i++) {
+		if (i > 11) {
+			for (int t = 0; t < 6; t++) {
+				mCells[i]->AddCard(randomDeck[c + 1]);
+				c += 1;
+			}
+		}
+		else {
+			for (int t = 0; t < 7; t++) {
+				mCells[i]->AddCard(randomDeck[c + 1]);
+				c += 1;
+			}
+		}
+	};
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -201,8 +214,6 @@ void CFreeCellDlg::OnPaint()
 	else
 	{
 		CPaintDC dc(this); // device context for painting
-		CRect rect;
-		GetClientRect(&rect);
 		/*
 		int left = 2;
 		int top = 2;
@@ -214,7 +225,7 @@ void CFreeCellDlg::OnPaint()
 		*/
 		for (int i = 0; i < 16; i++)
 		{
-			mCells[i]->Draw(dc, rect.Width(), rect.Height(), mCardImages);
+			mCells[i]->Draw(dc);
 		}
 		CDialogEx::OnPaint();
 	}
@@ -225,5 +236,59 @@ void CFreeCellDlg::OnPaint()
 HCURSOR CFreeCellDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
+}
+
+
+void CFreeCellDlg::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	int picked = -1;
+
+
+	for (int i = 0; i < 16; i++) {
+		//mCells[i]->SetSelected(false);
+		//checks every cell and checks if it was clicked anywhere in the box.
+		if (mCells[i]->IsClicked(point.x, point.y))
+			picked = i;
+	}
+
+
+
+	// Check if the click was inside the window
+	if (picked == -1) {
+		return;
+	}
+
+	// checks if it was the first click
+	if (mSelected == -1) {
+		//check if we can move if so then remove the card
+		if (mCells[picked]->CanRemoveCard()) {
+			mCells[picked]->SetSelected(true); // highlight
+			mSelected = picked;
+		}
+	}
+
+	else {
+		// last card of the first picked card
+		int firstCard = mCells[mSelected]->GetTopCard();
+
+		// in if statement I am passing the last card of the cell that was selected in the first click
+		if (mCells[picked]->CanAcceptCard(firstCard)) {
+
+
+			mCells[mSelected]->RemoveCard();
+			mCells[picked]->AddCard(firstCard);
+
+			mCells[mSelected]->SetSelected(false);
+			mSelected = -1;
+		}
+		else {
+			mCells[mSelected]->SetSelected(false);
+			mSelected = -1;
+		}
+	}
+	Invalidate();
+
+	CDialogEx::OnLButtonDown(nFlags, point);
 }
 

@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "cell.h"
 #include "WindowsCards.h"
+#include "WindowsCards.h"
+#include <windows.h>
+#include "FreeCellDlg.h"
+
 Cell::Cell(int left, int top, int right, int bottom)
 {
 	mLeft = left;
@@ -8,7 +12,7 @@ Cell::Cell(int left, int top, int right, int bottom)
 	mRight = right;
 	mBottom = bottom;
 }
-void Cell::Draw(CDC& dc, int width, int height, CImage images[])
+void Cell::Draw(CDC& dc)
 {
 	CBrush cellBackgroundColor(RGB(128, 128, 128));
 	dc.SelectObject(cellBackgroundColor);
@@ -16,9 +20,9 @@ void Cell::Draw(CDC& dc, int width, int height, CImage images[])
 
 	if (mCards.size() > 0)
 	{
-		for (int i = 0; i < mCards.size(); i++) {
-			DrawCard(dc, mLeft + 2, mTop + 2, mCards[i], mSelected);
-		}
+	
+		DrawCard(dc, mLeft + 2, mTop + 2, mCards[mCards.size() - 1]);
+		
 	}
 }
 
@@ -32,27 +36,45 @@ void Cell::RemoveCard()
 	mCards.pop_back();
 }
 
-bool Cell::CanRemoveCard()
+int Cell::CardCount()
 {
-	return mCards.size() > 0;
-	//will return True if bigger than 0, else false
+	return mCards.size();
+}
+
+int Cell::GetTopCard()
+{
+	return mCards[mCards.size() - 1];
+}
+
+
+//will return True if bigger than 0, else false
+bool Cell::CanRemoveCard() {
+	if (mCards.size() > 0) {
+		return true;
+	}
+	else
+	{
+		MessageBox(NULL, L"Error: Cannot perform action.", L"MessageBox caption", MB_OK);
+		return false;
+	}
+
 }
 bool Cell::CanAcceptCard(int index)
 {
-	//rules are different for all three child classes so it will need to be overwritted.
-	return true;
+	return TRUE;
 }
+
 
 bool Cell::IsClicked(int x, int y)
 {
 	return (x >= mLeft && x <= mRight && y >= mTop && y <= mBottom);
 }
-void Cell::SetSelected(bool selected)
+void Cell::SetSelected(bool selected) 
 {
 	mSelected = selected;
-}
+};
 
-StartCell::StartCell(int left, int top, int right, int bottom, int cardHeight)
+StartCell::StartCell(int left, int top, int right, int bottom)
 	: Cell(left, top, right, bottom)
 {
 
@@ -66,7 +88,33 @@ void StartCell::Draw(CDC& dc)
 
 	if (mCards.size() > 0)
 	{
-		DrawCard(dc, mLeft + 2, mTop + 2, mCards[mCards.size() - 1]);
+		for (int i = 0; i < mCards.size(); i++) {
+			DrawCard(dc, mLeft + 2, mTop + 2 + i * 25, mCards[i], mSelected);
+		}
+	}
+}
+
+bool StartCell::CanRemovedCard() {
+	return TRUE;
+}
+bool StartCell::CanAcceptCard(int index) {
+	if (mCards.size() == 0) {
+		return TRUE;
+	}
+	int firstRank = index / 4;
+	int firstSuit = index % 4;
+	bool firstRed = firstSuit == 1 || firstSuit == 2;
+
+	int secondRank = this->GetTopCard() / 4;
+	int secondSuit = this->GetTopCard() % 4;
+	bool secondRed = secondSuit == 1 || secondSuit == 2;
+
+
+	if (firstRed != secondRed && firstRank == secondRank - 1) {
+		return TRUE;
+	}
+	else {
+		return FALSE;
 	}
 }
 
@@ -78,6 +126,28 @@ FreeCell::FreeCell(int left, int top, int right, int bottom)
 
 }
 
+bool FreeCell::CanRemovedCard()
+{
+	return TRUE;
+}
+
+bool FreeCell::CanAcceptCard(int index)
+{
+
+	if (mCards.size() == 0) {
+		return TRUE;
+	}
+	else if (mCards.size() > 1) {
+		int test = this->GetTopCard();
+		if (test < index) {
+			return TRUE;
+		}
+	}
+	else {
+		return FALSE;
+	}
+}
+
 EndCell::EndCell(int left, int top, int right, int bottom)
 	: Cell(left, top, right, bottom)
 {
@@ -86,6 +156,27 @@ EndCell::EndCell(int left, int top, int right, int bottom)
 
 //overides the CanRemoveCard for EndCell child class
 bool EndCell::CanRemoveCard() {
-	return false;
+	return FALSE;
 }
 
+bool EndCell::CanAcceptCard(int index) {
+	if (this->mCards.size() == 0) {
+		if (index == 0 || index == 1 || index == 2 || index == 3) {
+			return TRUE;
+		}
+		return FALSE;
+	}
+	// works till this point
+	else if (this->mCards.size() > 0) {
+		int firstRank = index / 4;
+		int firstSuit = index % 4;
+		bool firstRed = firstSuit == 1 || firstSuit == 2;
+		int secondRank = this->GetTopCard() / 4;
+		int secondSuit = this->GetTopCard() % 4;
+		bool secondRed = secondSuit == 1 || secondSuit == 2;
+		if (firstRed != secondRed && firstRank == secondRank - 1) {
+			return TRUE;
+		}
+		return FALSE;
+	}
+}
